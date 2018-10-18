@@ -47,6 +47,9 @@ class Book(models.Model):
 
 	genre = models.ManyToManyField(Genre, help_text='Select a genre for this book.')
 
+	language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, help_text="Select the language the book is written in" )
+
+
 	def __str__(self):
 		
 		"""String for representing the Model Object"""
@@ -70,8 +73,6 @@ class BookInstance(models.Model):
 	id = models.UUIDField(primary_key=True, default = uuid.uuid4, help_text='Unique ID for this particular book across whole library')
 
 	book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
-
-	language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, help_text="Select the language the book is written in" )
 
 	imprint = models.CharField(max_length=200)
 
