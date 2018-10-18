@@ -7,8 +7,23 @@ class Genre(models.Model):
 	name = models.CharField(max_length=200, help_text='Enter a book genre (e.g. Science Fiction)')
 
 	def __str__(self):
+		
 		"""String for representing the Model object"""
+		
 		return self.name
+
+class Language(models.Model):
+
+	"""Model representing available languages for book instances."""
+
+	name = models.CharField(max_length=200, help_text='Enter a book language (example: German)')
+
+	def __str__(self):
+
+		"""String for representing the Model Object"""
+
+		return self.name
+
 
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
 
@@ -55,6 +70,8 @@ class BookInstance(models.Model):
 	id = models.UUIDField(primary_key=True, default = uuid.uuid4, help_text='Unique ID for this particular book across whole library')
 
 	book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
+
+	language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, help_text="Select the language the book is written in" )
 
 	imprint = models.CharField(max_length=200)
 
@@ -121,6 +138,7 @@ class Author(models.Model):
 			"""String for representing the model Object"""
 			
 			return f'{self.last_name}, {self.first_name}'
+
 
 
 
