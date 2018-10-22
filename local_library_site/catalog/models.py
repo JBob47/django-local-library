@@ -63,6 +63,17 @@ class Book(models.Model):
 		
 		return reverse('book-detail', args=[str(self.id)])
 
+	def display_genre(self):
+		
+		"""Create a string for the Genre. This is required to display genre in Admin."""
+
+		return ', ' .join(genre.name for genre in self.genre.all()[:3])
+
+	display_genre.short_description = 'Genre'
+
+
+
+
 
 import uuid #Required for unique book instances
 
@@ -134,11 +145,11 @@ class Author(models.Model):
 
 		return reverse('author-detail', args=[str(self.id)])
 
-		def __str__(self):
+	def __str__(self):
 			
-			"""String for representing the model Object"""
+		"""String for representing the model Object"""
 			
-			return f'{self.last_name}, {self.first_name}'
+		return f'{self.last_name}, {self.first_name}'
 
 
 
