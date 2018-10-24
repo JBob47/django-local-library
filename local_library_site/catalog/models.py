@@ -57,7 +57,7 @@ class Book(models.Model):
 		return self.title
 
 
-	def __get_absolute_url(self):
+	def get_absolute_url(self):
 		
 		"""Returns the url to access a detail record for this book."""
 		
@@ -150,6 +150,9 @@ class Author(models.Model):
 		"""String for representing the model Object"""
 			
 		return f'{self.last_name}, {self.first_name}'
+
+	class Meta:
+		ordering = ['last_name']
 
 
 
