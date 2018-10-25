@@ -136,8 +136,6 @@ class Author(models.Model):
 	
 	date_of_death = models.DateField('Died', null=True, blank=True)
 
-	class Meta:
-		ordering = ['last_name', 'first_name']
 
 	def get_absolute_url(self):
 
@@ -152,7 +150,9 @@ class Author(models.Model):
 		return f'{self.last_name}, {self.first_name}'
 
 	class Meta:
-		ordering = ['last_name']
+		ordering = ['last_name', 'first_name']
+
+
 
 
 
