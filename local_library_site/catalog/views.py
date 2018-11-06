@@ -1,7 +1,13 @@
 from django.shortcuts import render
 
 from catalog.models import Book, Author, BookInstance, Genre
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
+
+@login_required
 def index(request):
 	"""View function for home page of site."""
 
@@ -44,7 +50,7 @@ def index(request):
 
 from django.views import generic
 
-class BookListView(generic.ListView):
+class BookListView(LoginRequiredMixin, generic.ListView):
 	model = Book
 	paginate_by = 10
 	# context_object_name = 'my_book_list' #your name for ListView
@@ -52,15 +58,39 @@ class BookListView(generic.ListView):
 	# template_name = 'books/my_arbitrary_template_name_list.html' #Specify your own template name/location
 
 
-class BookDetailView(generic.DetailView):
+class BookDetailView(LoginRequiredMixin,generic.DetailView):
     model = Book
 
 
-class AuthorListView(generic.ListView):
+class AuthorListView(LoginRequiredMixin, generic.ListView):
 	model = Author
 	
 
-class AuthorDetailView(generic.DetailView):
+class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
 	model = Author
+
+
+class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+    """Generic class-based view listing books on loan to current user."""
+    model = BookInstance
+    template_name ='catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+    
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+
+class LoanedBooksLibrarianListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+    """Generic class-based view listing books on loan to current user."""
+
+    permission_required = 'catalog.can_mark_returned'
+    model = BookInstance
+    template_name ='catalog/bookinstance_list_borrowed_librarian.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+    
+    
 	
 
