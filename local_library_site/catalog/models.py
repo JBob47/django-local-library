@@ -166,6 +166,8 @@ class Author(models.Model):
 	class Meta:
 		ordering = ['last_name', 'first_name']
 
+		permissions = (("can_create_author", "Can Create Author"),)
+
 
 
 
