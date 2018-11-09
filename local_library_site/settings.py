@@ -30,8 +30,8 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 
 
-ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = ['bobbitt-library.herokuapp.com','127.0.0.1']
 
 # Application definition
 
@@ -143,6 +143,4 @@ DATABASES['default'].update(db_from_env)
 
 
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
